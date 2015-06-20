@@ -9,11 +9,11 @@ int main(int argc, char *argv[])
     QString en = "qwertyuiop[]asdfghjkl;'zxcvbnm,./`1234567890-= !@#$%^&*()_+!\"№;%:?*()_+~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?\\|";
     QString ru = "йцукенгшщзхъфывапролджэячсмитьбю.ё1234567890-= !@#$%^&*()_+!\"№;%:?*()_+ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,\\|";
 
-    QFile source("C:/Users/roman/Documents/build-qtdicgen-Desktop_Qt_5_4_1_MinGW_32bit-Release/release/source.txt");
+    QFile source("./source.txt");
     if (!source.open(QIODevice::ReadOnly | QIODevice::Text))
         return 1;
 
-    QFile Dictionary("C:/Users/roman/Documents/build-qtdicgen-Desktop_Qt_5_4_1_MinGW_32bit-Release/release/Dictionary.txt");
+    QFile Dictionary("./Dictionary.txt");
     if (!Dictionary.open(QIODevice::WriteOnly | QIODevice::Text))
         return 2;
 
@@ -26,21 +26,21 @@ int main(int argc, char *argv[])
     while (!in.atEnd()) {
         sline = in.readLine();
 
-        QString ucfline = fline.toUpper();
-        QString ucsline = sline.toUpper();
+        QString lcfline = fline.toLower();
+        QString lcsline = sline.toLower();
 
-        if (fline != "" && ucfline != ucsline)
+        if (fline != "" && lcfline != lcsline)
         {
             QString scfline = fline;
             scfline[0] = scfline[0].toUpper();
 
-            for (int i = 0; i < ucfline.length(); i++)
+            for (int i = 0; i < lcfline.length(); i++)
             {
-                ucfline.replace(i, 1, en[ru.indexOf(ucfline[i])]);
+                lcfline.replace(i, 1, en[ru.indexOf(lcfline[i])]);
             }
 
-            out << '\"' << ucfline << '\"' << '=' << '\"' << fline << '\"' << endl;
-            out << '\"' << ucfline << '\"' << '=' << '\"' << scfline << '\"' << endl;
+            out << '\"' << lcfline << '\"' << '=' << '\"' << fline << '\"' << endl;
+            out << '\"' << lcfline << '\"' << '=' << '\"' << scfline << '\"' << endl;
         }
         fline = sline;
     }
